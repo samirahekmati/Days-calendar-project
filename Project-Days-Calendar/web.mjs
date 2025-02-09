@@ -27,6 +27,10 @@ function generateTable(){
     const day = date.getDate(); 
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
+    
+    let header = document.createElement("h3");
+    header.innerHTML = `${year} - ${month} - ${day}`;
+    divContainer.appendChild(header);
 
     // Find first day of the month and its weekday
     const firstDayInWeek = new Date(year, month - 1, 1).getDay(); 
