@@ -1,0 +1,16 @@
+{
+  "name": "project-days-calendar",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "There are some commemorative days which occur annually, but not on a fixed date.",
+  "main": "common.test.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
