@@ -6,8 +6,6 @@
 import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
 
-let weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-let weekDaysShort = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 // let date11 = new Date();
 // let day11 = date11.getDate();
@@ -59,6 +57,7 @@ function findEventDate (daysData, year, month, day){
                 }
                 else{return day}
         }
+        else{return day}
        
 }
 
@@ -87,7 +86,7 @@ function generateTable(){
     console.log(totalDaysInMonth + "  " + "totalDaysInMonth");
 
     // Weekday names starting from Monday
-    let weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    let weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
     // Create table row for week day names
     let daysNameRow = document.createElement("tr");
