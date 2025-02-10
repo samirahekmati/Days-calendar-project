@@ -1,17 +1,39 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files.
-// It can be loaded into index.html.
-// Note that when running locally, in order to open a web page which uses modules, you must serve the directory over HTTP e.g. with https://www.npmjs.com/package/http-server
-// You can't open the index.html file using a file:// URL.
-
 import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
 import { findEventDate } from "./common.mjs";
 
+// Month and Year selectors
+const monthSelect = document.getElementById("month-select");
+const yearSelect = document.getElementById("year-select");
+const goButton = document.getElementById("go-button");
 
+// Populate Month Select
+const monthNames = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+];
 
+monthNames.forEach((month, index) => {
+    let option = document.createElement("option");
+    option.value = index + 1;
+    option.textContent = month;
+    monthSelect.appendChild(option);
+});
 
-function generateTable(){
-    console.log(daysData);
+// Populate Year Select
+const currentYear = new Date().getFullYear();
+for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+    let option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    yearSelect.appendChild(option);
+}
+
+// Set current month and year as selected
+monthSelect.value = new Date().getMonth() + 1;
+yearSelect.value = new Date().getFullYear();
+
+function generateTable(selectedYear, selectedMonth) {
     let calContainer = document.getElementById("table-container");
 
     // Clear previous table if exists
@@ -19,37 +41,20 @@ function generateTable(){
 
     // Create table and body
     let table = document.createElement("table");
-    table.border = "1"; // Add border for visibility
+    table.border = "1";
     let tblBody = document.createElement("tbody");
 
-    // Get current date details
-    const date = new Date();
-    const day = date.getDate(); 
-    const month = date.getMonth();
-    console.log("month-->", month)
-    const year = date.getFullYear();
-    console.log("year-->", year)
+    // Get date details
+    const firstDayInWeek = new Date(selectedYear, selectedMonth - 1, 1).getDay();
+    const totalDaysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
 
-    // Array of month names
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June", 
-        "July", "August", "September", "October", "November", "December"
-    ];
-    
+    // Create header
     let header = document.createElement("h3");
-    header.innerHTML = `${monthNames[month]} ${day}, ${year}`;
+    header.innerHTML = `${monthNames[selectedMonth - 1]} ${selectedYear}`;
     calContainer.appendChild(header);
 
-    // Find first day of the month and its weekday
-    const firstDayInWeek = new Date(year, month - 1, 1).getDay(); 
-    console.log(firstDayInWeek + "  " + "Find first day of the month and its weekday"); 
-    const totalDaysInMonth = new Date(year, month, 0).getDate(); 
-    console.log(totalDaysInMonth + "  " + "totalDaysInMonth");
-
-    // Weekday names starting from Monday
+    // Weekday names
     const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
-    // Create table row for week day names
     let daysNameRow = document.createElement("tr");
     for (let i = 0; i < weekDays.length; i++) {
         let cell = document.createElement("th");
@@ -58,23 +63,19 @@ function generateTable(){
     }
     tblBody.appendChild(daysNameRow);
 
-    // Create rows for the days of the month
+    // Adjust first day
     let dayCount = 1;
     let weekRow = document.createElement("tr");
-
-    // Adjust first day (make Monday first column)
     const adjustedFirstDay = firstDayInWeek === 0 ? 6 : firstDayInWeek - 1;
 
-    // Add empty cells before the first day
     for (let i = 0; i < adjustedFirstDay; i++) {
-        const emptyCell = document.createElement("td");
+        let emptyCell = document.createElement("td");
         weekRow.appendChild(emptyCell);
     }
 
-    // Fill in the calendar days
     for (let i = adjustedFirstDay; i < 7; i++) {
         let cell = document.createElement("td");
-        cell.innerText = findEventDate(daysData, year, month, dayCount);//dayCount
+        cell.innerText = findEventDate(daysData, selectedYear, selectedMonth, dayCount);
         weekRow.appendChild(cell);
         dayCount++;
     }
@@ -85,23 +86,25 @@ function generateTable(){
         let row = document.createElement("tr");
         for (let i = 0; i < 7 && dayCount <= totalDaysInMonth; i++) {
             let cell = document.createElement("td");
-            cell.innerText = findEventDate(daysData, year, month, dayCount);
+            cell.innerText = findEventDate(daysData, selectedYear, selectedMonth, dayCount);
             row.appendChild(cell);
             dayCount++;
         }
         tblBody.appendChild(row);
     }
 
-    // Append table body and add to container
     table.appendChild(tblBody);
     calContainer.appendChild(table);
-
-    
-
-
 }
 
-window.onload = function() {
-    generateTable();
-    // document.querySelector("body").innerText = `${getGreeting()} - there are ${daysData.length} known days`;
-}
+// Update table when clicking "Go" button
+goButton.addEventListener("click", () => {
+    const selectedYear = parseInt(yearSelect.value);
+    const selectedMonth = parseInt(monthSelect.value);
+    generateTable(selectedYear, selectedMonth);
+});
+
+// Generate initial table
+window.onload = function () {
+    generateTable(currentYear, new Date().getMonth() + 1);
+};
