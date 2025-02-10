@@ -12,10 +12,10 @@ import { findEventDate } from "./common.mjs";
 
 function generateTable(){
     console.log(daysData);
-    let divContainer = document.getElementById("table-container");
+    let calContainer = document.getElementById("table-container");
 
     // Clear previous table if exists
-    divContainer.innerHTML = "";
+    calContainer.innerHTML = "";
 
     // Create table and body
     let table = document.createElement("table");
@@ -25,12 +25,20 @@ function generateTable(){
     // Get current date details
     const date = new Date();
     const day = date.getDate(); 
-    const month = date.getMonth() + 1;
+    const month = date.getMonth();
+    console.log("month-->", month)
     const year = date.getFullYear();
+    console.log("year-->", year)
+
+    // Array of month names
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
     
     let header = document.createElement("h3");
-    header.innerHTML = `${year} - ${month} - ${day}`;
-    divContainer.appendChild(header);
+    header.innerHTML = `${monthNames[month]} ${day}, ${year}`;
+    calContainer.appendChild(header);
 
     // Find first day of the month and its weekday
     const firstDayInWeek = new Date(year, month - 1, 1).getDay(); 
@@ -86,7 +94,7 @@ function generateTable(){
 
     // Append table body and add to container
     table.appendChild(tblBody);
-    divContainer.appendChild(table);
+    calContainer.appendChild(table);
 
     
 
