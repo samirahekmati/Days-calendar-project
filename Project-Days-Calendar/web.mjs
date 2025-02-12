@@ -5,7 +5,7 @@ import { findEventDate } from "./common.mjs";
 // Month and Year selectors
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
-const goButton = document.getElementById("go-button");
+
 
 // Populate Month Select
 const monthNames = [
@@ -172,12 +172,7 @@ function generateTable(selectedYear, selectedMonth) {
   calContainer.appendChild(table);
 }
 
-// Update table when clicking "Go" button
-goButton.addEventListener("click", () => {
-  const selectedYear = parseInt(yearSelect.value);
-  const selectedMonth = parseInt(monthSelect.value);
-  generateTable(selectedYear, selectedMonth);
-});
+
 
 // Generate initial table
 window.onload = function () {
