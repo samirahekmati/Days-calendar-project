@@ -74,7 +74,21 @@ previousButton.addEventListener("click", () => {
   generateTable(currentYear, currentMonth);
 });
 
-
+//next button
+const nextButton = document.getElementById("next-button");
+nextButton.addEventListener("click", () => {
+  if (currentMonth === 12) {
+    currentMonth = 1;
+    currentYear++; // move to next year
+  } else {
+    currentMonth++;
+  }
+  // Update dropdown values
+  monthSelect.value = currentMonth;
+  yearSelect.value = currentYear;
+  console.log("current month next button", currentMonth);
+  generateTable(currentYear, currentMonth);
+});
 
 function generateTable(selectedYear, selectedMonth) {
   let calContainer = document.getElementById("table-container");
