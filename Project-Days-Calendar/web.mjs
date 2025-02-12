@@ -67,10 +67,11 @@ previousButton.addEventListener("click", () => {
   } else {
     currentMonth--;
   }
+  console.log("current month previous button", currentMonth);
   // Update dropdown values
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
-  console.log("current month previous button", currentMonth);
+  
   generateTable(currentYear, currentMonth);
 });
 
@@ -83,10 +84,12 @@ nextButton.addEventListener("click", () => {
   } else {
     currentMonth++;
   }
+  console.log("current month next button", currentMonth);
+  
   // Update dropdown values
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
-  console.log("current month next button", currentMonth);
+  
   generateTable(currentYear, currentMonth);
 });
 
@@ -176,5 +179,11 @@ function generateTable(selectedYear, selectedMonth) {
 
 // Generate initial table
 window.onload = function () {
-  generateTable(currentYear, new Date().getMonth() + 1);
+  currentMonth = new Date().getMonth() + 1;
+  currentYear = new Date().getFullYear();
+
+  // Set default values for dropdowns
+  monthSelect.value = currentMonth;
+  yearSelect.value = currentYear;
+  generateTable(currentYear, currentMonth);
 };
