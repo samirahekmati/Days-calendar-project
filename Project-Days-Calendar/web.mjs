@@ -31,8 +31,10 @@ monthNames.forEach((month, index) => {
 });
 
 // Populate Year Select
+const startingDate = 1900
+const endingDate = 2050
 let currentYear = new Date().getFullYear();
-for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+for (let i = startingDate; i <= endingDate; i++) {
   let option = document.createElement("option");
   option.value = i;
   option.textContent = i;
