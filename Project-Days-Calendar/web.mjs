@@ -5,7 +5,7 @@ import { findEventDate } from "./common.mjs";
 // Month and Year selectors
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
-
+const goButton = document.getElementById("go-button");
 
 // Populate Month Select
 const monthNames = [
@@ -39,20 +39,15 @@ for (let i = currentYear - 10; i <= currentYear + 10; i++) {
   yearSelect.appendChild(option);
 }
 
+// Set current month and year as selected
+monthSelect.value = new Date().getMonth() + 1;
+yearSelect.value = new Date().getFullYear();
+
 // Track Current Month and Year
 let currentMonth = new Date().getMonth();
 console.log("current month", currentMonth);
 console.log("current year", currentYear);
 
-monthSelect.addEventListener("change", () => {
-  currentMonth = parseInt(monthSelect.value);
-  generateTable(currentYear, currentMonth);
-});
-
-yearSelect.addEventListener("change", () => {
-  currentYear = parseInt(yearSelect.value);
-  generateTable(currentYear, currentMonth);
-});
 
 
 
@@ -174,6 +169,13 @@ function generateTable(selectedYear, selectedMonth) {
   table.appendChild(tblBody);
   calContainer.appendChild(table);
 }
+
+// Update table when clicking "Go" button
+goButton.addEventListener("click", () => {
+  const selectedYear = parseInt(yearSelect.value);
+  const selectedMonth = parseInt(monthSelect.value);
+  generateTable(selectedYear, selectedMonth);
+});
 
 
 
