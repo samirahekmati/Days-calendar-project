@@ -1,61 +1,43 @@
-// This is a placeholder file which shows how you can access functions and data defined in other files. You can delete the contents of the file once you have understood how it works.
-// It can be run with `node`.
 
-//import daysData from "./days.json" with { type: "json" };
-const daysData = JSON.parse(fs.readFileSync("./days.json", "utf8"));
-console.log(` there are ${daysData.length} known days`);
-
-import fs from "fs"; //  imports the File System (fs) module in Node.js.
-
-import { createEvents } from "ics";
 import { findEventDate } from "./common.mjs";
+import fs from "fs";
+import fetch from "node-fetch";
 
+const daysData = JSON.parse(fs.readFileSync("./days.json"));
 
-  
-function generateICSEvents(startYear, endYear, daysData) {
-    let events = [];
-  
-    for (let year = startYear; year <= endYear; year++) {
-      for (let dayData of daysData) {
-        const { name, monthName, descriptionURL } = dayData;
-  
-        // Convert month name to number (January = 1, ..., December = 12)
-        const month = new Date(`${monthName} 1, ${year}`).getMonth() + 1;
-  
-        // Find the correct event date for this year and month
-        let correctDay = null;
-        for (let day = 1; day <= 31; day++) {
-          let eventResult = findEventDate(daysData, year, month, day);
-  
-          if (typeof eventResult === "string" && eventResult.includes(name)) {
-            correctDay = day;
-            break; // ✅ Stop after finding the first correct date
-          }
-        }
-  
-        if (correctDay !== null) {
-          console.log(`✅ Adding Event: ${name} on ${year}-${month}-${correctDay}`);
-  
-          events.push({
-            title: name,
-            start: [year, month, correctDay],
-            duration: { hours: 24 },
-            description: `More info: ${descriptionURL}`,
-          });
-        }
-      }
+async function fetchDescription(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch");
+        return await response.text();
+    } catch (error) {
+        console.error(`Error fetching ${url}:`, error);
+        return "No description available";
     }
-  
-    createEvents(events, (error, value) => {
-      if (error) {
-        console.log(error);
-        return;
-      }
-      fs.writeFileSync("events.ics", value);
-      console.log("✅ ICS file generated: events.ics");
-    });
-  }
+}
 
-  generateICSEvents(2020, 2030,daysData);
-  
-  export { generateICSEvents };
+async function generateICS() {
+    let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Custom Events//EN";
+    
+    for (let year = 2020; year <= 2030; year++) {
+        for (let month = 1; month <= 12; month++) {
+            for (let day = 1; day <= 31; day++) {
+                const event = findEventDate(daysData, year, month, day);
+                if (event.eventName) {
+                    let eventDate = new Date(year, month - 1, event.day1);
+                    let dateString = eventDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
+                    let description = event.url ? await fetchDescription(event.url) : "No description available";
+                    
+                    icsContent += `\nBEGIN:VEVENT\nSUMMARY:${event.eventName}\nDTSTART:${dateString}\nDTEND:${dateString}\nDESCRIPTION:${description}\nEND:VEVENT`;
+                }
+            }
+        }
+    }
+    
+    icsContent += "\nEND:VCALENDAR";
+    
+    fs.writeFileSync("events.ics", icsContent);
+    console.log("ICS file created: events.ics");
+}
+
+generateICS();
