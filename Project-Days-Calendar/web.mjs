@@ -1,12 +1,12 @@
 import daysData from "./days.json" with { type: "json" };
 import { findEventDate } from "./common.mjs";
 
-// Month and Year selectors
+// Month and Year dropdown selectors 
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
 const goButton = document.getElementById("go-button");
 
-// Populate Month Select
+// Populate Month Select for dropdown
 const monthNames = [
   "January",
   "February",
@@ -22,6 +22,7 @@ const monthNames = [
   "December",
 ];
 
+//populate the month dropdown with options
 monthNames.forEach((month, index) => {
   let option = document.createElement("option");
   option.value = index + 1;
@@ -29,10 +30,12 @@ monthNames.forEach((month, index) => {
   monthSelect.appendChild(option);
 });
 
-// Populate Year Select
+//define year range for selection
 const startingDate = 1900;
 const endingDate = 2050;
 let currentYear = new Date().getFullYear();
+
+// Populate Year Select
 for (let i = startingDate; i <= endingDate; i++) {
   let option = document.createElement("option");
   option.value = i;
@@ -51,11 +54,11 @@ console.log("current year", currentYear);
 
 //create previous month and next month buttons
 
-//previous button
+//previous button functionality
 const previousButton = document.getElementById("previous-button");
 previousButton.addEventListener("click", () => {
   if (currentMonth === 1) {
-    currentMonth = 12;
+    currentMonth = 12; //wrap around to December
     currentYear--; // move to previous year
   } else {
     currentMonth--;
@@ -86,6 +89,7 @@ nextButton.addEventListener("click", () => {
   generateTable(currentYear, currentMonth);
 });
 
+//fetch and display event description in a modal
 function fetchDescription(url) { 
   if (!url) return;             
   fetch(url)                   
