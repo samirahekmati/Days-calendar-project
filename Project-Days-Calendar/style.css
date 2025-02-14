@@ -1,0 +1,41 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #B4D9F0;
+    margin: 0 auto;
+    padding-top: 20px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;  
+}
+
+#previous-button, #next-button {
+    margin-top: 2rem;
+    margin-left: 8rem;
+    padding: 10px 10px;
+    border: none;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+#go-button{
+    width: 50px;
+    margin-top: 1rem;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+
+}
+
+#month-select, #year-select{
+    width: 120px;
+    background-color:azure;
+    border: none;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+table{
+    background-color:azure;
+    border: none;
+}

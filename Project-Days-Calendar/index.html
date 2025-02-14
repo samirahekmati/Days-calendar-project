@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script type="module" src="common.mjs"></script>
-        <script type="module" src="web.mjs"></script>
-    </head>
-    <body>
-        <label for="month-select">Select Month:</label>
-        <select id="month-select"></select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <label for="month-select">Select Month:</label>
+    <select id="month-select"></select>
 
-        <label for="year-select">Select Year:</label>
-        <select id="year-select"></select>
+    <label for="year-select">Select Year:</label>
+    <select id="year-select"></select>
 
-        
-        <button id="go-button">Go</button>
+    <button id="go-button">Go</button>
 
+    <div id="table-container"></div>
 
+    <div id="button-container">
+      <button id="previous-button">Previous month</button>
+      <button id="next-button">Next month</button>
+    </div>
 
-        <div id="table-container"></div>
-
-        <div id="button-container">
-            <button id="previous-button">Previous month</button>
-            <button id="next-button">Next month</button>
-        </div>
-    </body>
+    <script type="module" src="web.mjs"></script>
+  </body>
 </html>
