@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="web.mjs"></script>
   </head>
  
     <body>
@@ -28,6 +29,11 @@
       <button id="next-button">Next month</button>
     </div>
 
-    <script type="module" src="web.mjs"></script>
+    <div id="description-modal" hidden>
+       <button id="close-desc-btn">X</button>
+       <div id="description-content"></div>
+   </div>
+
+    
   </body>
 </html>

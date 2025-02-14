@@ -17,7 +17,7 @@ export function findEventDate(daysData, year, month, day) {
     }
 
     const lastDayOfOctober = new Date(year, 9, 31).getDay(); // Get the weekday of October 31
-    const lastFriday = 31 - ((lastDayOfOctober - 5 + 7) % 7); // Find last Frida
+    const lastFriday = 31 - ((lastDayOfOctober - 5 + 7) % 7); // Find last Friday
     if (lastFriday === day) {
       const result = {
         day1: lastFriday,
