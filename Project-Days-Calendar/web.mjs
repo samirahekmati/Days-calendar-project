@@ -86,6 +86,21 @@ nextButton.addEventListener("click", () => {
   generateTable(currentYear, currentMonth);
 });
 
+function fetchDescription(url) { 
+  if (!url) return;             
+  fetch(url)                   
+    .then(r => r.text())       
+    .then(t => {               
+      document.getElementById("description-content").textContent = t; 
+      document.getElementById("description-modal").hidden = false;   
+    })                              
+}                              
+
+// Close button hides the modal
+document.getElementById("close-desc-btn").addEventListener("click", () => { 
+  document.getElementById("description-modal").hidden = true;              
+});   
+
 function generateTable(selectedYear, selectedMonth) {
   let calContainer = document.getElementById("table-container");
 
@@ -144,7 +159,16 @@ function generateTable(selectedYear, selectedMonth) {
     );
     console.log("new variable-->", tryVar);
 
-    cell.innerHTML = `${tryVar.day1} <a href="${tryVar.url}"> ${tryVar.eventName} </a>`;
+    if (tryVar.eventName) {                                     
+      cell.innerText = tryVar.day1 + " ";                       
+      let btn = document.createElement("button");               
+      btn.textContent = tryVar.eventName;                     
+      btn.addEventListener("click", () => fetchDescription(tryVar.url));
+      cell.appendChild(btn);                                 
+    } else {
+      cell.innerText = tryVar.day1;
+    }
+
     weekRow.appendChild(cell);
     dayCount++;
   }
@@ -163,7 +187,16 @@ function generateTable(selectedYear, selectedMonth) {
       );
       console.log("new variable-->", tryVar);
 
-      cell.innerHTML = `${tryVar.day1} <a href="${tryVar.url}"> ${tryVar.eventName} </a>`;
+      if (tryVar.eventName) {                                   
+        cell.innerText = tryVar.day1 + " ";                     
+        let btn = document.createElement("button");             
+        btn.textContent = tryVar.eventName;                    
+        btn.addEventListener("click", () => fetchDescription(tryVar.url)); 
+        cell.appendChild(btn);                                
+      } else {
+        cell.innerText = tryVar.day1;
+      }
+
       row.appendChild(cell);
       dayCount++;
     }
@@ -173,6 +206,8 @@ function generateTable(selectedYear, selectedMonth) {
   table.appendChild(tblBody);
   calContainer.appendChild(table);
 }
+
+
 
 // Update table when clicking "Go" button
 goButton.addEventListener("click", () => {
