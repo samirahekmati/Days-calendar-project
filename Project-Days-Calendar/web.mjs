@@ -1,4 +1,3 @@
-import { getGreeting } from "./common.mjs";
 import daysData from "./days.json" with { type: "json" };
 import { findEventDate } from "./common.mjs";
 
@@ -31,8 +30,8 @@ monthNames.forEach((month, index) => {
 });
 
 // Populate Year Select
-const startingDate = 1900
-const endingDate = 2050
+const startingDate = 1900;
+const endingDate = 2050;
 let currentYear = new Date().getFullYear();
 for (let i = startingDate; i <= endingDate; i++) {
   let option = document.createElement("option");
@@ -50,9 +49,6 @@ let currentMonth = new Date().getMonth();
 console.log("current month", currentMonth);
 console.log("current year", currentYear);
 
-
-
-
 //create previous month and next month buttons
 
 //previous button
@@ -68,7 +64,7 @@ previousButton.addEventListener("click", () => {
   // Update dropdown values
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
-  
+
   generateTable(currentYear, currentMonth);
 });
 
@@ -82,11 +78,11 @@ nextButton.addEventListener("click", () => {
     currentMonth++;
   }
   console.log("current month next button", currentMonth);
-  
+
   // Update dropdown values
   monthSelect.value = currentMonth;
   yearSelect.value = currentYear;
-  
+
   generateTable(currentYear, currentMonth);
 });
 
@@ -140,12 +136,15 @@ function generateTable(selectedYear, selectedMonth) {
 
   for (let i = adjustedFirstDay; i < 7; i++) {
     let cell = document.createElement("td");
-    cell.innerText = findEventDate(
+    const tryVar = findEventDate(
       daysData,
       selectedYear,
       selectedMonth,
       dayCount
     );
+    console.log("new variable-->", tryVar);
+
+    cell.innerHTML = `${tryVar.day1} <a href="${tryVar.url}"> ${tryVar.eventName} </a>`;
     weekRow.appendChild(cell);
     dayCount++;
   }
@@ -156,12 +155,15 @@ function generateTable(selectedYear, selectedMonth) {
     let row = document.createElement("tr");
     for (let i = 0; i < 7 && dayCount <= totalDaysInMonth; i++) {
       let cell = document.createElement("td");
-      cell.innerText = findEventDate(
+      const tryVar = findEventDate(
         daysData,
         selectedYear,
         selectedMonth,
         dayCount
       );
+      console.log("new variable-->", tryVar);
+
+      cell.innerHTML = `${tryVar.day1} <a href="${tryVar.url}"> ${tryVar.eventName} </a>`;
       row.appendChild(cell);
       dayCount++;
     }
@@ -178,8 +180,6 @@ goButton.addEventListener("click", () => {
   const selectedMonth = parseInt(monthSelect.value);
   generateTable(selectedYear, selectedMonth);
 });
-
-
 
 // Generate initial table
 window.onload = function () {
